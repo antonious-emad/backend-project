@@ -6,8 +6,8 @@
   ///////////////////////////////////////////////
 */
 
-const profile__menu = document.querySelector(".profile__menu");   //ret: first element having class 'profile__menu' (menu element in 'cart.ejs' page)
-const profileBtn = document.getElementById("profileBtn");   //ret: first element having id 'profileBtn' (button element in same page)
+const profile__menu = document.querySelector(".profile__menu");
+const profileBtn = document.getElementById("profileBtn");
 
 /*
   -----------------------------------------------
@@ -16,24 +16,15 @@ const profileBtn = document.getElementById("profileBtn");   //ret: first element
 */
 
 //Toggle the DropDown Menu and Scale the ProfieBtn
-function toggleProfileDropdown(event) {   //profile_btn, dropMenu: toggle hover,scale
-     //element.class
-  event.target.classList.toggle("icon-hover");            //hover: Toggle scale the CSS 'icon-hover'cls for only profileBtn (target ele)
-  event.target.classList.toggle("icon-active");           //onclick: Sudden scale the CSS 'profileBtn'cls for only profileBtn (target ele)
-  profile__menu.classList.toggle("profile__menu-active"); //Toggle the dropdown menu for profileBtn
+function toggleProfileDropdown(event) {
+  event.target.classList.toggle("icon-hover"); // Toggle the icon hover for profileBtn
+  event.target.classList.toggle("icon-active"); //Scale the profileBtn
+  profile__menu.classList.toggle("profile__menu-active");
 }
-/**event → The object was created at click
-
-  *event.target → ~=ELEMENT that was clicked (triggered the event).
-
-  *classList → A built-in object that allows add/remove/toggle classes on an element. 
-  
-  *Ex 'icon-hover': init+Eff_in_CSS,  mentioned_in_HTML+JS
-  */
 
 //Closes Profile Dropdown Menu
 function closeProfileDropdown(event) {
-  if (event.target.id != "profileBtn") {  //if clicked anywhere remove dmenu
+  if (event.target.id != "profileBtn") {
     if (profile__menu.classList.contains("profile__menu-active")) {
       profileBtn.classList.remove("icon-active");
       profileBtn.classList.toggle("icon-hover");
@@ -62,7 +53,7 @@ document.addEventListener("click", closeProfileDropdown);
   ///////////////////////////////////////////////
 */
 
-const decBtns = document.querySelectorAll(".dec");  //ret: all elements having class 'dec' (decrement button in 'cart.ejs' page)
+const decBtns = document.querySelectorAll(".dec");
 const incBtns = document.querySelectorAll(".inc");
 const removeBtns = document.querySelectorAll(".remove__item");
 
@@ -73,19 +64,17 @@ const removeBtns = document.querySelectorAll(".remove__item");
 */
 async function patchCart(id, newQty) {
   const url = `cart/${id}`;
-  const response = await fetch(url, {   //fetch: make an HTTP request,  It sends the request to cart/id
-    method: "PATCH",        // request Type -> PATCH: update part resource
-
-    headers: {              // request metadata's
-      "Content-Type": "application/json", // type=json (of content being sent)
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
     },
-
     // The content to update
-    body: JSON.stringify({  // request data -> stringify: convert JS object to JSON string
+    body: JSON.stringify({
       qty: newQty,
     }),
   });
-  location.reload();    // reload the page to imm upd the changes in cart visually
+  location.reload();
 }
 
 /*
@@ -118,22 +107,22 @@ function decQty(event) {
   let currentQty = null;
 
   const btn = event.target;
-  const children = btn.parentElement.children;  //siblings ele of btn
+  const children = btn.parentElement.children;
 
   //Converting HTML Collection to Array for Using forEach
-  Array.from(children).forEach((element) => {   // array= all ele siblings of btn
-    if (element.id == "itemId") {   // get itemId ele value
+  Array.from(children).forEach((element) => {
+    if (element.id == "itemId") {
       itemId = element.value;
     }
-    if (element.id == "qty") {      // INC qty ele value
+    if (element.id == "qty") {
       currentQty = +element.value;
     }
   });
   const newQty = currentQty - 1;
   if (newQty == 0) {
-    deleteCart(itemId);    //delete item
+    deleteCart(itemId);
   } else {
-    patchCart(itemId, newQty); //patch decrease item
+    patchCart(itemId, newQty);
   }
 }
 
@@ -155,7 +144,7 @@ function incQty(event) {
     }
   });
   const newQty = currentQty + 1;
-  patchCart(itemId, newQty);  //patch increase item
+  patchCart(itemId, newQty);
 }
 
 //Remove Item
@@ -171,7 +160,7 @@ function removeItem(event) {
       itemId = element.value;
     }
   });
-  deleteCart(itemId);  //delete Item directly
+  deleteCart(itemId);
 }
 
 /*
@@ -180,7 +169,7 @@ function removeItem(event) {
   -----------------------------------------------
 */
 
-//Adding Click Event on Decrement Button        //ret: all elements having class 'dec' (decrement button in 'cart.ejs' page)
+//Adding Click Event on Decrement Button
 decBtns.forEach((btn) => {
   btn.addEventListener("click", decQty);
 });
@@ -204,13 +193,13 @@ removeBtns.forEach((btn) => {
 */
 
 let addressInput = document.getElementById("newAddress");
-let updateBtn = document.getElementById("updateBtn");     // made inside the new HTML of addressContainer
+let updateBtn = document.getElementById("updateBtn");
 let editBtn = document.getElementById("editBtn");
 let addressContainer = document.getElementById("addressContainer");
 let proceedContainer = document.getElementById("proceedContainer");
 
-function getvariables() {   //refresh
-  addressInput = document.getElementById("newAddress");   //duplicate assign: in case the page changed dynamically (content upd and new ele appeared).
+function getvariables() {
+  addressInput = document.getElementById("newAddress");
   updateBtn = document.getElementById("updateBtn");
   // const editBtn = document.getElementById("editBtn");
   // const addressContainer = document.getElementById("addressContainer");
@@ -243,7 +232,7 @@ async function patchAddress(newAddress) {
 */
 
 //Update ADDRESS
-function updateAddress() {     //send modified addr
+function updateAddress() {
   const newAddress = addressInput.value;
   patchAddress(newAddress);
 }
@@ -251,19 +240,11 @@ function updateAddress() {     //send modified addr
 //Edit Address
 function editAddress() {
   addressContainer.innerHTML = `<input type="text" id="newAddress" name="address" class="address__input" placeholder="Enter your address" spellcheck="false">
-  <button class="update__btn" id="updateBtn">Update</button>`;    // insert this childrens to the parent
+  <button class="update__btn" id="updateBtn">Update</button>`;
   proceedContainer.innerHTML = `<input type="button" class="proceed__btn" title="Please update your address before placing order." value="Place Order&#9205;">`;
   getvariables(); //Getting Update button and addressInput again b'coz there isn't before
-  updateBtn.addEventListener("click", updateAddress);   //adds an event listener to the new updateBtn that was just created
+  updateBtn.addEventListener("click", updateAddress);
 }
-/**
- * Before .innerHTML modification:
-      If the user has a saved address (entered before), it’s displayed as a paragraph + edit button.
-      If no address is saved, an input field for a new address is shown only
-
- *After .innerHTML modification (in editAddress()):
-      The address section turns into an input field + update button 
- */
 
 /*
   -----------------------------------------------
@@ -308,19 +289,18 @@ const overlay = document.getElementById("overlay");
   -----------------------------------------------
 */
 
-function popupActive() {  //show end popup msg
-  popup.classList.add("active");      // add(): add cls'active' to cls'popup' (.popup -> .popup.active)
-  overlay.classList.add("active");    // overlay: add cls'active' to cls'overlay' (.overlay -> .overlay.active)
+function popupActive() {
+  popup.classList.add("active");
+  overlay.classList.add("active");
   return;
 }
-//.active is NOT pre-defined in css
 
 /*
   -----------------------------------------------
   Clear Cart Request
   -----------------------------------------------
 */
-async function clearCart(orderId) {    // remove whole cart after btn'placeOrder' clicked
+async function clearCart(orderId) {
   const url = `/cart/clear/all`;
   const response = await fetch(url, {
     method: "DELETE",
@@ -334,8 +314,8 @@ async function clearCart(orderId) {    // remove whole cart after btn'placeOrder
   });
   popupActive();
   const reloadPage = setTimeout(() => {
-    location.reload();  //showing the updated state (empty cart)
-  }, 2200);   // do reload after 2.2 sec (time for popup to show)
+    location.reload();
+  }, 2200);
 }
 
 /*
@@ -367,8 +347,6 @@ async function postOrder(items, bill) {
 */
 
 //Edit Address
-//make oreder -> send order
-//placeOrder() -> postOrder()    ( -> clearCart() -> popupActive() -> reloadPage)
 // function placeOrder() {
 //   let items = [];
 //   for (let i = 0; i < itemName.length; i++) {
