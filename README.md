@@ -32,9 +32,9 @@ npm install
 - First Create `.env` file in root directory using the following content and make changes if required.
 
 ```
-PORT=6013
-MONGO_URI=mongodb+srv://foodly:7Lgu0PKDCr3yd2Mg@foodly.49ssjmc.mongodb.net/foodly
-TOKEN_SECRET=foodlyflutter
+PORT=****
+MONGO_URI=******************************
+TOKEN_SECRET=*************
 ```
 
 - Starting the Server
